@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Classes\Article;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 
 class SampleContoroller extends Controller
 {
     //
-    use AuthorizesRequests;
+    // use AuthorizesRequests;
+
     public function policy()
     {
 
@@ -32,11 +33,22 @@ class SampleContoroller extends Controller
         Auth::login(Customer::first());
     }
 
-    public function check()
+    public function logout()
+    {
+        Auth::logout();
+    }
+
+    public function check(Request $request)
     {
         // VarDumper::dump(auth()->user());
         $article = new Article(2);
-        $this->authorize('update', $article);
+        // Gate::authorize('check', [$article, [1, 3]]);
+        var_dump(auth()->user()->can('check', [$article, [1, 3, 2]]));
         echo '認証成功してます';
+    }
+
+    public function test()
+    {
+        echo '表示されました';
     }
 }
