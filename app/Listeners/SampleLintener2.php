@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class SampleLintener
+class SampleLintener2
 {
     /**
      * Create the event listener.
@@ -22,7 +22,7 @@ class SampleLintener
      */
     public function handle(SampleEvent $event)
     {
-        Log::info('Sample Listener id called');
-        return 1;
+        Log::channel('monthly')->debug('Sample Listener 2 id called');
+        return 2;
     }
 }

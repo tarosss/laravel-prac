@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class SampleEvent
 {
@@ -17,9 +18,9 @@ class SampleEvent
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($value)
     {
-        //
+        $this->id = $value['id'];
     }
 
     /**
