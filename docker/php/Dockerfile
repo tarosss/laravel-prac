@@ -22,3 +22,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # ワーキングディレクトリの設定
 WORKDIR /var/www/html
+
+# systemd の queue worker 用 service を /etc/systemd/system/ に配置
+COPY systemd/laravel-queue.service /etc/systemd/system/laravel-queue.service
+RUN chmod 644 /etc/systemd/system/laravel-queue.service

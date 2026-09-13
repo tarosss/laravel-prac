@@ -1,0 +1,20 @@
+[Unit]
+Description=Laravel Queue Worker
+After=network.target
+
+[Service]
+Type=simple
+
+User=www-data
+Group=www-data
+
+WorkingDirectory=/var/www/html
+
+# artisan のフルパスを明示指定する
+ExecStart=/usr/bin/php /var/www/html/artisan queue:work --sleep=3 --tries=3 --timeout=60 --max-jobs=1000 --max-time=3600
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

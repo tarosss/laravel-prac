@@ -104,7 +104,7 @@ class SampleContoroller extends Controller
     {
         $product = Product::find($id);
         SampleJob::dispatch($product)->delay(now()->plus(seconds: 10));
-        return response()->json(['message' => 'queue']);
+        return response()->json(['message' => $product->name]);
     }
 
     public function event(Request $request)

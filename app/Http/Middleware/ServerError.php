@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
-class Sample
+class ServerError
 {
     /**
      * Handle an incoming request.
@@ -18,12 +18,9 @@ class Sample
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Context::add('url', $request->url());
-        Context::add('trace_id', Str::uuid()->toString());
         $response = $next($request);
         if ($response->getStatusCode() >= 500) {
-            // Slack通知
-            Log::debug('後半戦');
+            // slackに通知する処理
         }
         return $response;
     }
