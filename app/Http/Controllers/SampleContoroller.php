@@ -3,8 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Article;
+use App\Events\SampleEvent;
+use App\Jobs\SampleHighJob;
+use App\Jobs\SampleJob;
+use App\Jobs\SampleLowJob;
+use App\Jobs\SampleUniqueJob;
 use App\Models\Customer;
+use App\Models\Product;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +20,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\VarDumper\VarDumper;
+use Illuminate\Support\Facades\Process;
 
 class SampleContoroller extends Controller
 {
@@ -83,5 +91,31 @@ class SampleContoroller extends Controller
     public function http(Request $request)
     {
         return Http::dd()->get('https://readouble.com/laravel/12.x/ja/http-client.html');
+    }
+
+    public function process(Request $request)
+    {
+        $result = Process::run('ls -la');
+        Log::info($result->output());
+        return  "<h1>{$result->output()}</h1>";
+    }
+
+    public function queue($id)
+    {
+        $product = Product::find($id);
+        SampleJob::dispatch($product)->delay(now()->plus(seconds: 10));
+        return response()->json(['message' => 'queue']);
+    }
+
+    public function event(Request $request)
+    {
+        SampleEvent::dispatch(['id' => 1]);
+        return response()->json(['message' => 'event ok']);
+    }
+    public function exception(Request $request)
+    {
+        abort(500);
+        // throw new Exception('意図的なエラー');
+        return response()->json(['message' => 'event ok']);
     }
 }

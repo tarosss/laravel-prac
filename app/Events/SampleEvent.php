@@ -15,6 +15,7 @@ class SampleEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public mixed $id;
     /**
      * Create a new event instance.
      */

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class SampleLintener
+class SampleLintener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -24,5 +24,10 @@ class SampleLintener
     {
         Log::info('Sample Listener id called');
         return 1;
+    }
+
+    public function shouldQueue(SampleEvent $event): bool
+    {
+        return $event->id === 1;
     }
 }

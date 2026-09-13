@@ -26,3 +26,9 @@ Route::get('session', [SampleContoroller::class, 'showSession']);
 Route::get('cache', [SampleContoroller::class, 'cacheFlexible']);
 Route::get('context', [SampleContoroller::class, 'context'])->middleware([Sample::class]);
 Route::get('http', [SampleContoroller::class, 'http'])->middleware([Sample::class]);
+Route::get('process', [SampleContoroller::class, 'process'])->middleware([Sample::class]);
+Route::get('queue/{id}', [SampleContoroller::class, 'queue'])
+    ->middleware([Sample::class])
+    ->whereNumber('id');
+Route::get('event', [SampleContoroller::class, 'event'])->middleware([Sample::class]);
+Route::get('exception', [SampleContoroller::class, 'exception'])->middleware([Sample::class]);
