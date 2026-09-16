@@ -21,11 +21,18 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\VarDumper\VarDumper;
 use Illuminate\Support\Facades\Process;
+use Pest\Support\View;
 
 class SampleContoroller extends Controller
 {
     //
     // use AuthorizesRequests;
+
+    public function a()
+    {
+
+        return view('a');
+    }
 
     public function policy()
     {

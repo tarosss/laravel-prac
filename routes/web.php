@@ -5,13 +5,20 @@ use App\Http\Controllers\SampleContoroller;
 use App\Http\Middleware\Sample;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', function () {
+    Log::info('welcome');
     return view('welcome');
 });
 
+Route::get('/welcome-test', function () {
+    Log::info('welcome-test');
+    return view('welcome-test');
+});
 
 Route::get('policy', [SampleContoroller::class, 'policy']);
+Route::get('a', [SampleContoroller::class, 'a']);
 
 Route::get('customers', [SampleContoroller::class, 'customers']);
 

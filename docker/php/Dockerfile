@@ -9,13 +9,18 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    libzip-dev
+    libzip-dev \
+    ca-certificates
+
+# Node.js 22 をインストール（npm と npx も含まれる）
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs
 
 # キャッシュのクリア
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # PHP 拡張モジュールのインストール
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip sockets
 
 # Composerの取得
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
