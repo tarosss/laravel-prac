@@ -2,9 +2,26 @@
 
 namespace Tests\Unit;
 
-test('example', function () {
+// test('example100', function () {
+//     session(['mkelmclka;smlcl;aslc;sm' => 10]);
+//     $page = visit('/a');
+//     session(['second' => 10]);
+
+//     $page->click('ここをクリック');
+
+//     $page->assertPathBeginsWith('/wel');
+// });
+
+test('example100', function () {
     $page = visit('/a')
-        ->click('ここをクリック');
-    $page->click('アクリルキーホルダー');
-    $page->assertSourceHas('<h1>Welcome</h1>');
+        ->pressAndWaitFor('印刷', 5)
+        ->screenshot()
+        ->radio('body_material', '1')
+        ->screenshot();
 });
+
+// test('example100', function () {
+//     $page = visit('/a')
+//         ->pressAndWaitFor('ここをクリック')
+//         ->screenshot();
+// });

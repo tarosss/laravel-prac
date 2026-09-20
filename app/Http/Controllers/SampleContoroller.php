@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\VarDumper\VarDumper;
 use Illuminate\Support\Facades\Process;
 use Pest\Support\View;
+use App\Services\Service1;
 
 class SampleContoroller extends Controller
 {
@@ -124,5 +125,19 @@ class SampleContoroller extends Controller
         abort(500);
         // throw new Exception('意図的なエラー');
         return response()->json(['message' => 'event ok']);
+    }
+
+    public function blade(Request $request)
+    {
+        $product = Product::find(1);
+
+        return view('sample', ['product' => $product]);
+    }
+
+    public function singleton(Request $request)
+    {
+        $a = app(Service1::class);
+
+        var_dump(get_class($a));
     }
 }

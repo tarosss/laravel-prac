@@ -1,6 +1,6 @@
 <html>
 <main>
-    <div>
+    <div class="hoge">
         そうだよ
     </div>
     <h1>Welcome</h1>

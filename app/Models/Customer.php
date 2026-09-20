@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; // 1. 継承元を変更
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 
-class Customer extends Authenticatable
+class Customer extends Model implements
+  AuthenticatableContract,
+  AuthorizableContract
 {
-  use Notifiable;
+  use Authenticatable, Authorizable;
 
   protected $table = 'customers'; // テーブル名が customers の場合
   public $timestamps = null;

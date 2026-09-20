@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 Route::get('/welcome-test', function () {
-    Log::info('welcome-test');
+    Log::info('welcome-test', session()->all());
     return view('welcome-test');
 });
 
@@ -39,3 +39,6 @@ Route::get('queue/{id}', [SampleContoroller::class, 'queue'])
     ->whereNumber('id');
 Route::get('event', [SampleContoroller::class, 'event'])->middleware([Sample::class]);
 Route::get('exception', [SampleContoroller::class, 'exception'])->middleware([Sample::class]);
+Route::get('blade', [SampleContoroller::class, 'blade']);
+Route::get('singleton', [SampleContoroller::class, 'singleton']);
+Route::get('customer-login', [SampleContoroller::class, 'singleton']);
