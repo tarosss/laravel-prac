@@ -23,6 +23,7 @@ use Symfony\Component\VarDumper\VarDumper;
 use Illuminate\Support\Facades\Process;
 use Pest\Support\View;
 use App\Services\Service1;
+use Pest\ArchPresets\Custom;
 
 class SampleContoroller extends Controller
 {
@@ -50,7 +51,12 @@ class SampleContoroller extends Controller
 
     public function login()
     {
-        Auth::login(Customer::first());
+        Auth::logingId(1);
+        // Auth::login(new Customer([
+        //     'id' => 1,
+        //     'name' => '内田',
+        // ]));
+        session()->regenerate();
     }
 
     public function logout()
@@ -63,6 +69,9 @@ class SampleContoroller extends Controller
         // VarDumper::dump(auth()->user());
         $article = new Article(2);
         // Gate::authorize('check', [$article, [1, 3]]);
+        // VarDumper::dump(Auth::user()->can());
+        VarDumper::dump(auth()->user());
+        var_dump(auth()->check());
         var_dump(auth()->user()->can('check', [$article, [1, 3, 2]]));
         echo '認証成功してます';
     }
@@ -111,6 +120,7 @@ class SampleContoroller extends Controller
     public function queue($id)
     {
         $product = Product::find($id);
+        $product = Product::find($id);
         SampleJob::dispatch($product)->delay(now()->plus(seconds: 10));
         return response()->json(['message' => $product->name]);
     }
@@ -130,7 +140,7 @@ class SampleContoroller extends Controller
     public function blade(Request $request)
     {
         $product = Product::find(1);
-
+        session(['sapmlesapmple' => 'sample']);
         return view('sample', ['product' => $product]);
     }
 

@@ -22,11 +22,11 @@ Route::get('a', [SampleContoroller::class, 'a']);
 
 Route::get('customers', [SampleContoroller::class, 'customers']);
 
-Route::get('login', [SampleContoroller::class, 'login']);
+Route::get('login', [SampleContoroller::class, 'login'])->name('login');
 Route::get('logout', [SampleContoroller::class, 'logout']);
 
 
-Route::get('check', [SampleContoroller::class, 'check']);
+Route::get('check', [SampleContoroller::class, 'check'])->middleware(['auth']);
 Route::get('test', [SampleContoroller::class, 'test'])->middleware(['auth']);
 Route::get('can', [SampleContoroller::class, 'test'])->middleware(['auth', 'can:check,article']);
 Route::get('session', [SampleContoroller::class, 'showSession']);

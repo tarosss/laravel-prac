@@ -10,7 +10,9 @@
 @endsection
 @section('top', 'トップのコンテンツ')
 
-
+<x-sample2-component
+  data="1"
+  data2="10" />
 @push('sub-content')
 <h4>subコンテンツに書いてみた2つめ</h4>
 @endpush
