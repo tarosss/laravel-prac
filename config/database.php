@@ -43,7 +43,11 @@ return [
             'synchronous' => null,
             'transaction_mode' => 'DEFERRED',
         ],
-
+        'telescope_sqlite' => [
+            'driver' => 'sqlite',
+            'database' => database_path('telescope/telescope.sqlite'),
+            'prefix' => '',
+        ],
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
@@ -149,7 +153,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-database-'),
+            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-database-'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
