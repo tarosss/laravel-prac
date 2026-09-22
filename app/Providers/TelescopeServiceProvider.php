@@ -16,7 +16,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function authorization(): void
     {
         Telescope::auth(function ($request) {
-            return app()->environment('development');
+            return app()->environment(['local', 'development']);
         });
     }
 
