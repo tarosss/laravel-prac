@@ -19,14 +19,14 @@ class RequestCacheKey implements CacheKeyGenerator
     return self::normalize($payload);
   }
 
-  private function normalize($value, string $prefix = ''): string
+  private function normalize(mixed $value, string $prefix = ''): string
   {
     if (is_array($value)) {
       ksort($value);
 
       $segments = [];
       foreach ($value as $key => $item) {
-        $nextKey = $prefix === '' ? (string) $key : $prefix . '.' . $key;
+        $nextKey = $prefix === '' ? (string)$key : $prefix . '.' . $key;
         $segments[] = self::normalize($item, $nextKey);
       }
 
