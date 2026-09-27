@@ -2,12 +2,14 @@
 
 use App\Events\SampleEvent;
 use App\Http\Controllers\SampleContoroller;
+use App\Http\Middleware\CacheResponse;
 use App\Http\Middleware\Sample;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
-Route::get('/', function () {
+Route::match(['get', 'post'], '/', function () {
     Log::info('welcome');
     return view('welcome');
 });
@@ -18,7 +20,9 @@ Route::get('/welcome-test', function () {
 });
 
 Route::get('policy', [SampleContoroller::class, 'policy']);
-Route::get('a', [SampleContoroller::class, 'a']);
+Route::match(['get', 'post'], 'a', [SampleContoroller::class, 'a'])
+    ->middleware(CacheResponse::class)
+    ->withoutMiddleware([ValidateCsrfToken::class]);
 
 Route::get('customers', [SampleContoroller::class, 'customers']);
 
