@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CacheResponse
 {
+    public function __construct(
+        private RequestCacheKey $requestCacheKey,
+    ) {}
     /**
      * Handle an incoming request.
      *
@@ -17,7 +20,7 @@ class CacheResponse
      */
     public function handle(Request $request, Closure $next, ?string $ttl = null): Response
     {
-        $cacheKey = 'response:' . RequestCacheKey::make($request);
+        $cacheKey = 'response:' . $this->requestCacheKey->make($request);
         $cachedResponse = Cache::get($cacheKey);
 
         if (

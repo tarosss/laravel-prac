@@ -1,7 +1,9 @@
+
 <?php
 
 use App\Events\SampleEvent;
 use App\Http\Controllers\SampleContoroller;
+use App\Http\Middleware\CacheNuxtResponse;
 use App\Http\Middleware\CacheResponse;
 use App\Http\Middleware\Sample;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +45,7 @@ Route::get('queue/{id}', [SampleContoroller::class, 'queue'])
     ->whereNumber('id');
 Route::get('event', [SampleContoroller::class, 'event'])->middleware([Sample::class]);
 Route::get('exception', [SampleContoroller::class, 'exception'])->middleware([Sample::class]);
-Route::get('blade', [SampleContoroller::class, 'blade']);
+Route::get('blade', [SampleContoroller::class, 'blade'])
+    ->middleware(CacheNuxtResponse::class);
 Route::get('singleton', [SampleContoroller::class, 'singleton']);
 Route::get('customer-login', [SampleContoroller::class, 'singleton']);

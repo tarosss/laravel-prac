@@ -6,6 +6,7 @@ use App\Classes\Article;
 use App\Models\Product;
 use App\Policies\SamplePolicy;
 use App\Services\Service1;
+use App\Services\Service1Child1;
 use App\Services\Service2;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -24,9 +25,11 @@ class AppServiceProvider extends ServiceProvider
         //     var_dump('single');
         //     return new Product();
         // });
-        $this->app->bind(Service1::class, function () {
-            var_dump('sajiosjc');
-            return  new Service2;
+        $this->app->bind(Service1::class, function ($app) {
+            if ($app->request->attributes->get('nuxt_cache', false)) {
+                return new Service1Child1;
+            }
+            return  new Service1;
         });
         $this->app->bind(Service2::class, function () {
             var_dump('sajiosjc');
