@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Contracts\CacheKeyGenerator;
 use App\Support\RequestCacheKey;
 use Closure;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CacheResponse
 {
     public function __construct(
-        private RequestCacheKey $requestCacheKey,
+        private CacheKeyGenerator $cacheKeyGenerator,
     ) {}
     /**
      * Handle an incoming request.
@@ -21,7 +22,7 @@ class CacheResponse
      */
     public function handle(Request $request, Closure $next, ?string $ttl = null): Response
     {
-        $cacheKey = 'response:' . $this->requestCacheKey->make($request);
+        $cacheKey = 'response:' . $this->cacheKeyGenerator->generate($request);
         $cachedResponse = Cache::get($cacheKey);
 
         if (

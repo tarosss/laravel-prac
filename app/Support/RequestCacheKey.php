@@ -2,11 +2,12 @@
 
 namespace App\Support;
 
+use App\Contracts\CacheKeyGenerator;
 use Illuminate\Http\Request;
 
-class RequestCacheKey
+class RequestCacheKey implements CacheKeyGenerator
 {
-  public static function make(Request $request): string
+  public function generate(Request $request): string
   {
     $payload = [
       'method' => $request->method(),
@@ -18,7 +19,7 @@ class RequestCacheKey
     return self::normalize($payload);
   }
 
-  private static function normalize(mixed $value, string $prefix = ''): string
+  private function normalize(mixed $value, string $prefix = ''): string
   {
     if (is_array($value)) {
       ksort($value);
@@ -43,7 +44,7 @@ class RequestCacheKey
     return $prefix . ':' . self::convertScalar($value);
   }
 
-  private static function convertScalar(mixed $value): string
+  private function convertScalar(mixed $value): string
   {
     if (is_bool($value)) {
       return $value ? 'true' : 'false';
