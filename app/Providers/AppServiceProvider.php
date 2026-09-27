@@ -32,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
             return  new Service1;
         });
         $this->app->bind(Service2::class, function () {
-            var_dump('sajiosjc');
             return  new Service2;
         });
 

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Support\RequestCacheKey;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,8 +39,10 @@ class CacheResponse
         $response = $next($request);
 
         if ($response->isSuccessful() || $response->isRedirection()) {
-            $headers = $response->headers->all();
-            unset($headers['date']);
+            $headers = Arr::except(
+                $response->headers->all(),
+                ['date', 'x-request-id'] // リクエストごとに異なるため除外
+            );
 
             Cache::put($cacheKey, [
                 'status' => $response->getStatusCode(),
