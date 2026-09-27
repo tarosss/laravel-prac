@@ -19,6 +19,7 @@ class CacheResponse
      * Handle an incoming request.
      *
      * @param  Closure(Request): (Response)  $next
+     * @param ?string $ttl 1w=1週間, 1d=1日, 1h=1時間, 1m=1分, 1s=1秒 組み合わせることも可能。　2d4h5m10sのように指定
      */
     public function handle(Request $request, Closure $next, ?string $ttl = null): Response
     {
@@ -67,7 +68,7 @@ class CacheResponse
             return 300;
         }
 
-        preg_match_all('/(\d+)([smhd])/', $normalized, $matches, PREG_SET_ORDER);
+        preg_match_all('/(\d+)([smhdw])/', $normalized, $matches, PREG_SET_ORDER);
 
         if ($matches === []) {
             return 300;
@@ -75,28 +76,19 @@ class CacheResponse
 
         $totalSeconds = 0;
 
+        $unitSeconds = [
+            's' => 1,
+            'm' => 60,
+            'h' => 3600,
+            'd' => 86400,
+            'w' => 604800,
+        ];
+
         foreach ($matches as $match) {
             $value = (int) $match[1];
             $unit = $match[2];
 
-            if ($unit === 's') {
-                $totalSeconds += $value;
-                continue;
-            }
-
-            if ($unit === 'm') {
-                $totalSeconds += $value * 60;
-                continue;
-            }
-
-            if ($unit === 'h') {
-                $totalSeconds += $value * 3600;
-                continue;
-            }
-
-            if ($unit === 'd') {
-                $totalSeconds += $value * 86400;
-            }
+            $totalSeconds += $value * ($unitSeconds[$unit] ?? 0);
         }
 
         return $totalSeconds > 0 ? $totalSeconds : 300;
