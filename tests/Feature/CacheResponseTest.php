@@ -22,16 +22,18 @@ it('caches responses using a recursively sorted request signature', function () 
   $firstResponse = $middleware->handle($firstRequest, function () use (&$callCount) {
     $callCount++;
 
-    return response()->json(['ok' => true]);
+    return response()->json(['ok' => true], 202);
   });
 
   $secondResponse = $middleware->handle($secondRequest, function () use (&$callCount) {
     $callCount++;
 
-    return response()->json(['ok' => false]);
+    return response()->json(['ok' => false], 200);
   });
 
   expect($callCount)->toBe(1)
+    ->and($firstResponse->getStatusCode())->toBe(202)
     ->and($firstResponse->getContent())->toBe('{"ok":true}')
+    ->and($secondResponse->getStatusCode())->toBe(202)
     ->and($secondResponse->getContent())->toBe('{"ok":true}');
 });
