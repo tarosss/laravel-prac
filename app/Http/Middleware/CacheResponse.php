@@ -68,8 +68,7 @@ class CacheResponse
         }
 
         preg_match_all('/(\d+)([smhd])/', $normalized, $matches, PREG_SET_ORDER);
-        logger($normalized);
-        logger($matches);
+
         if ($matches === []) {
             return 300;
         }
