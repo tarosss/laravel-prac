@@ -19,7 +19,7 @@ class RequestCacheKey implements CacheKeyGenerator
     return self::normalize($payload);
   }
 
-  private function normalize(mixed $value, string $prefix = ''): string
+  private function normalize($value, string $prefix = ''): string
   {
     if (is_array($value)) {
       ksort($value);
@@ -34,7 +34,7 @@ class RequestCacheKey implements CacheKeyGenerator
     }
 
     if (is_object($value)) {
-      return self::normalize((array) $value, $prefix);
+      return self::normalize((array)$value, $prefix);
     }
 
     if ($prefix === '') {
@@ -54,6 +54,6 @@ class RequestCacheKey implements CacheKeyGenerator
       return 'null';
     }
 
-    return (string) $value;
+    return (string)$value;
   }
 }
